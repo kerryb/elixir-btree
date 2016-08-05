@@ -35,5 +35,10 @@ defmodule BTreeTest do
       tree = context[:tree] |> BTree.insert("charlie", 2)
       assert tree.right.key == "charlie"
     end
+
+    test "overwrites its own value when the key matches", context do
+      tree = context[:tree] |> BTree.insert("bravo", 42)
+      assert tree.value == 42
+    end
   end
 end
