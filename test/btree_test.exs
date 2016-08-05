@@ -13,6 +13,13 @@ defmodule BTreeTest do
     end
   end
 
+  describe "Inserting into a nil tree" do
+    test "returns a new tree" do
+      tree = BTree.insert nil, "alpha", 1
+      assert {tree.key, tree.value} == {"alpha", 1}
+    end
+  end
+
   describe "An empty BTree" do
     test "stores the first inserted value itself" do
       tree = %BTree{}
@@ -39,6 +46,14 @@ defmodule BTreeTest do
     test "overwrites its own value when the key matches", context do
       tree = context[:tree] |> BTree.insert("bravo", 42)
       assert tree.value == 42
+    end
+  end
+
+  describe "A BTree with child nodes" do
+    test "delegates insertion to the child" do
+      tree = %BTree{key: "alpha", value: 1, right: %BTree{key: "charlie", value: 2}}
+              |> BTree.insert("bravo", 3)
+      assert tree.right.left.key == "bravo"
     end
   end
 end
