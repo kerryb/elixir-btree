@@ -62,5 +62,20 @@ defmodule BTreeTest do
       tree = %BTree{key: "alpha", value: 1}
       assert BTree.search(tree, "alpha") == 1
     end
+
+    test "looks in the left node if the key is less than the node's key" do
+      tree = %BTree{key: "bravo", value: 1, left: %BTree{key: "alpha", value: 2}}
+      assert BTree.search(tree, "alpha") == 2
+    end
+
+    test "looks in the right node if the key is greater than the node's key" do
+      tree = %BTree{key: "bravo", value: 1, right: %BTree{key: "charlie", value: 2}}
+      assert BTree.search(tree, "charlie") == 2
+    end
+
+    test "returns nil if the key is not found" do
+      tree = %BTree{key: "alpha", value: 1}
+      assert BTree.search(tree, "bravo") == nil
+    end
   end
 end

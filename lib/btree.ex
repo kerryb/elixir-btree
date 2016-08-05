@@ -12,5 +12,13 @@ defmodule BTree do
     end
   end
 
+  def search(nil, _), do: nil
   def search(%BTree{key: key, value: value}, key), do: value
+  def search(tree, key) do
+    if key < tree.key do
+      search tree.left, key
+    else
+      search tree.right, key
+    end
+  end
 end
