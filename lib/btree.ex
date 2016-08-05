@@ -12,6 +12,5 @@ defmodule BTree do
     end
   end
 
-  def search(tree, key) do
-  end
+  def search(%BTree{key: key, value: value}, key), do: value
 end

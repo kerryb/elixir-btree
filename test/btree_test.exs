@@ -56,4 +56,11 @@ defmodule BTreeTest do
       assert tree.right.left.key == "bravo"
     end
   end
+
+  describe "Searching" do
+    test "returns the value if the key matches" do
+      tree = %BTree{key: "alpha", value: 1}
+      assert BTree.search(tree, "alpha") == 1
+    end
+  end
 end
