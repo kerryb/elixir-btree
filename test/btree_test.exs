@@ -78,4 +78,30 @@ defmodule BTreeTest do
       assert BTree.search(tree, "bravo") == nil
     end
   end
+
+  describe "Deleting" do
+    test "removes the key and value for a root node with no children" do
+      tree = %BTree{key: "alpha", value: 1}
+              |> BTree.delete("alpha")
+      assert tree == %BTree{}
+    end
+
+    test "does nothing if the tree is empty" do
+      tree = %BTree{}
+              |> BTree.delete("alpha")
+      assert tree == %BTree{}
+    end
+
+    test "does nothing if the key is not found" do
+      tree = %BTree{key: "alpha", value: 1}
+              |> BTree.delete("bravo")
+      assert tree == %BTree{key: "alpha", value: 1}
+    end
+
+    test "replaces the node with its left child if it has no right child" do
+      tree = %BTree{key: "alpha", value: 1, left: %BTree{key: "bravo", value: 2}}
+              |> BTree.delete("alpha")
+      assert tree == %BTree{key: "bravo", value: 2}
+    end
+  end
 end
