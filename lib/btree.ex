@@ -14,7 +14,11 @@ defmodule BTree do
   def search(tree = %BTree{key: our_key}, key) when key < our_key, do: search tree.left, key
   def search(tree, key), do: search tree.right, key
 
-  def delete(%BTree{key: key, left: left, right: nil}, key) when left != nil , do: left
+  def delete(%BTree{key: key, left: left, right: nil}, key) when left != nil, do: left
+  def delete(%BTree{key: key, left: nil, right: right}, key) when right != nil, do: right
+  def delete(%BTree{key: key, left: left, right: right}, key) when left != nil and right != nil do
+    %BTree{key: left.key, value: left.value, left: delete(left, left.key), right: right}
+  end
   def delete(%BTree{key: key}, key), do: %BTree{}
   def delete(tree, _key), do: tree
 end

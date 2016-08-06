@@ -103,5 +103,20 @@ defmodule BTreeTest do
               |> BTree.delete("alpha")
       assert tree == %BTree{key: "bravo", value: 2}
     end
+
+    test "replaces the node with its right child if it has no left child" do
+      tree = %BTree{key: "alpha", value: 1, right: %BTree{key: "bravo", value: 2}}
+              |> BTree.delete("alpha")
+      assert tree == %BTree{key: "bravo", value: 2}
+    end
+
+    test "takes the left node's value and recursively deletes it when it has two children" do
+      left_grandchild = %BTree{key: "charlie", value: 3}
+      left = %BTree{key: "bravo", value: 2, left: left_grandchild}
+      right = %BTree{key: "delta", value: 4}
+      tree = %BTree{key: "alpha", value: 1, left: left, right: right}
+              |> BTree.delete("alpha")
+      assert tree == %BTree{key: "bravo", value: 2, left: left_grandchild, right: right}
+    end
   end
 end
